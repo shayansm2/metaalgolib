@@ -1,2 +1,2 @@
 # MetaAlgoLib
-## ALibrary For Metaheurisitc Algorithms 
+## A Library For Metaheurisitc Algorithms 
