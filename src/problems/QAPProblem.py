@@ -1,13 +1,14 @@
+from abc import ABC
+
 import numpy as np
 
-from src.problems.lib.ParameterStorage import ParameterStorage
+from src.enums.problems import ProblemNames
 from src.problems.lib.Problem import Problem
 
 
-class QAPProblem(Problem):
-    def __init__(self):
-        super().__init__()
-        self.parameter = ParameterStorage()
+class QAPProblem(Problem, ABC):
+    def get_problem_name(self) -> str:
+        return ProblemNames.qap
 
     def set_parameter_from_url(self, url):
         string = super().get_from_url(url)
@@ -22,3 +23,5 @@ class QAPProblem(Problem):
         self.parameter.transport_cost_matrix = \
             np.array([int(i) for i in problem[2].split()]) \
             .reshape(self.parameter.problem_size, self.parameter.problem_size)
+
+        return self
