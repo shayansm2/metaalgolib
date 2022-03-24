@@ -4,13 +4,9 @@ import pandas as pd
 import requests as requests
 
 from src.lib.DataStructure import DataStructure
-from src.problems.lib.ParameterStorage import ParameterStorage
 
 
 class Problem(DataStructure, ABC):
-    def __init__(self):
-        self.parameter = ParameterStorage()
-
     @abstractmethod
     def get_problem_name(self) -> str:
         pass

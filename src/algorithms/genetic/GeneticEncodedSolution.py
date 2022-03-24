@@ -1,6 +1,9 @@
+from typing import final
+
 from src.algorithms.lib.EncodedSolution import EncodedSolution
 
 
+@final
 class GeneticEncodedSolution(EncodedSolution):
     def __init__(self):
         super().__init__()

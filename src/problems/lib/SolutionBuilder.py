@@ -1,30 +1,18 @@
-from abc import abstractmethod, ABC
+from typing import final
 
 from src.lib.FunctionObject import FunctionObject
-from src.problems.lib.Problem import Problem
+from src.problems.lib.Calculator import Calculator
 from src.problems.lib.Solution import Solution
 
 
-class SolutionBuilder(FunctionObject, ABC):
-    def __init__(self, problem: Problem):
-        self.problem = problem
+@final
+class SolutionBuilder(FunctionObject):
+    def __init__(self, calculator: Calculator):
+        self.calculator = calculator
 
-    @abstractmethod
-    def build(self, *args) -> Solution:
-        pass
-
-    @abstractmethod
-    def build_randomly(self) -> Solution:
-        pass
-
-    @abstractmethod
-    def build_from_decision_variables(self, decision_variables: any) -> Solution:
-        pass
-
-    @abstractmethod
-    def calculate_objective_function(self, decision_variables: any) -> float:
-        pass
-
-    @abstractmethod
-    def check_is_feasible(self, decision_variables: any) -> bool:
-        pass
+    def build(self, decision_variables: any) -> Solution:
+        solution = Solution()
+        solution.set_decision_variables(decision_variables)
+        solution.set_objective_function_value(self.calculator.get_objective_function(decision_variables))
+        solution.set_is_feasible(self.calculator.check_is_feasible(decision_variables))
+        return solution

@@ -2,26 +2,15 @@ from abc import ABC, abstractmethod
 
 from src.algorithms.lib.EncodedSolution import EncodedSolution
 from src.lib.FunctionObject import FunctionObject
-from src.problems.lib.Problem import Problem
-from src.problems.lib.Solution import Solution
+from src.problems.lib.Convertor import Convertor
+from src.problems.lib.SolutionBuilder import SolutionBuilder
 
 
 class EncodedSolutionBuilder(FunctionObject, ABC):
-    def __init__(self, problem: Problem):
-        self.problem = problem
+    def __init__(self, convertor: Convertor, solution_builder: SolutionBuilder):
+        self.convertor = convertor
+        self.solutionBuilder = solution_builder
 
     @abstractmethod
     def build(self, *args) -> EncodedSolution:
-        pass
-
-    @abstractmethod
-    def build_randomly(self) -> EncodedSolution:
-        pass
-
-    @abstractmethod
-    def build_from_solution(self, solution: Solution) -> EncodedSolution:
-        pass
-
-    @abstractmethod
-    def build_decoded_solution(self, encoded_solution: EncodedSolution) -> Solution:
         pass

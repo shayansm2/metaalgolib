@@ -1,6 +1,9 @@
+from typing import final
+
 from src.lib.DataStructure import DataStructure
 
 
+@final
 class Solution(DataStructure):
     def __init__(self):
         self.isFeasible = None
