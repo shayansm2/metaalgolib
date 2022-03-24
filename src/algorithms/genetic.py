@@ -1,8 +1,23 @@
 from abc import ABC
 from typing import final
 
-from src.algorithms.genetic.GeneticEncodedSolution import GeneticEncodedSolution
+from src.algorithms.lib.EncodedSolution import EncodedSolution
 from src.algorithms.lib.EncodedSolutionBuilder import EncodedSolutionBuilder
+from src.algorithms.lib.PopulationBasedAlgorithm import PopulationBasedAlgorithm
+
+
+@final
+class GeneticEncodedSolution(EncodedSolution):
+    def __init__(self):
+        super().__init__()
+        self.chromosome = None
+
+    def set_chromosome(self, chromosome: list):
+        self.chromosome = chromosome
+        return self
+
+    def get_chromosome(self):
+        return self.chromosome
 
 
 @final
@@ -17,3 +32,7 @@ class GeneticEncodedSolutionBuilder(EncodedSolutionBuilder, ABC):
 
     def get_cost_function_value(self, decoded_solution):
         return self.calculator.get_cost_function(decoded_solution.get_objective_function_value())
+
+
+class GeneticAlgorithm(PopulationBasedAlgorithm, ABC):
+    pass
