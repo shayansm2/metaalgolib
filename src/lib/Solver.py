@@ -13,7 +13,8 @@ class Solver(FunctionObject):
         self.withPlot = True
 
     def solve(self):
-        pass
+        self.algorithm.set_problem(self.problem)
+        self.algorithm.execute()
 
     def get_best_found_answer(self):
         pass

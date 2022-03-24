@@ -4,11 +4,24 @@ import pandas as pd
 import requests as requests
 
 from src.lib.DataStructure import DataStructure
+from src.problems.lib.ProblemCalculator import ProblemCalculator
 
 
 class Problem(DataStructure, ABC):
     @abstractmethod
     def get_problem_name(self) -> str:
+        pass
+
+    @abstractmethod
+    def set_parameters(self, *args):
+        pass
+
+    @abstractmethod
+    def get_problem_calculator(self) -> ProblemCalculator:
+        pass
+
+    @abstractmethod
+    def get_problem_convertors_mapping(self) -> dict:
         pass
 
     @staticmethod

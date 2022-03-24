@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 
-from src.lib.FunctionObject import FunctionObject
+from src.lib.Calculator import Calculator
 from src.problems.lib.Problem import Problem
 
 
-class Calculator(FunctionObject, ABC):
+class ProblemCalculator(Calculator, ABC):
     def __init__(self, problem: Problem):
         self.problem = problem
 

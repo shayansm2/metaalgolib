@@ -12,7 +12,7 @@ ga.set_hyper_parameter(enum.hyperParam.numberOfIteration, 100) \
     .set_hyper_parameter(enum.hyperParam.mutationPercentage, 0.1)
 
 qap = QAPProblem()
-qap.set_parameter_from_url(url='https://www.opt.math.tugraz.at/qaplib/data.d/bur26b.dat')
+qap.set_parameters(url='https://www.opt.math.tugraz.at/qaplib/data.d/bur26b.dat')
 
 solver = Solver(ga, qap)
 solver.with_plot()
