@@ -1,4 +1,7 @@
-class ParameterStorage(object):
+from src.lib.DataStructure import DataStructure
+
+
+class ParameterStorage(DataStructure):
     def __repr__(self):
         parameters = vars(self)
 

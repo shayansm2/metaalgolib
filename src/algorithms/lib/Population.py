@@ -1,4 +1,7 @@
-class Population(object):
+from src.lib.DataStructure import DataStructure
+
+
+class Population(DataStructure):
     def __init__(self):
         self.population = []
 

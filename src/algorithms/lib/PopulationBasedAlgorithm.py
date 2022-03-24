@@ -4,4 +4,6 @@ from src.algorithms.lib.Algorithm import Algorithm
 
 
 class PopulationBasedAlgorithm(Algorithm, ABC):
-    pass
+    def set_selection_method(self):
+        pass
+

@@ -1,7 +1,7 @@
 from src.AlgorithmFactory import AlgorithmFactory
 from src.Enums import Enums
-from src.problems.QAPProblem import QAPProblem
-from src.solver.Solver import Solver
+from src.problems.QAP import QAPProblem
+from src.lib.Solver import Solver
 
 enum = Enums()
 ga = AlgorithmFactory.get(enum.algo.ga)

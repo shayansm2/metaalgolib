@@ -1,4 +1,7 @@
-class HyperParameterStorage(object):
+from src.lib.DataStructure import DataStructure
+
+
+class HyperParameterStorage(DataStructure):
     def __init__(self):
         self.parameterStorage = dict()
 

@@ -1,8 +1,9 @@
 from src.algorithms.lib.Algorithm import Algorithm
+from src.lib.FunctionObject import FunctionObject
 from src.problems.lib.Problem import Problem
 
 
-class Solver(object):
+class Solver(FunctionObject):
     def __init__(self, algorithm: Algorithm, problem: Problem):
         self.algorithm = algorithm
         self.problem = problem
