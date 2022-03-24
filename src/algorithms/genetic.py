@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import final, Callable
+from typing import final, Callable, Type
 
+from src.Enums import Enums
 from src.algorithms.lib.EncodedSolution import EncodedSolution
 from src.algorithms.lib.EncodedSolutionBuilder import EncodedSolutionBuilder
 from src.algorithms.lib.Operators import Operators
@@ -48,4 +49,22 @@ class GeneticOperators(Operators, ABC):
 
 
 class GeneticAlgorithm(PopulationBasedAlgorithm, ABC):
-    pass
+    def get_algorithm_name(self) -> str:
+        return Enums.algo.ga
+
+    def get_algorithm_operator_type(self) -> Type[Operators]:
+        return GeneticOperators
+
+    def initiate(self):
+        super().initiate()
+        self.init_hyper_parameters()
+
+    def init_hyper_parameters(self):
+        n_pop = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfPopulation)
+        p_crossover = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.crossoverPercentage)
+        p_mutation = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.mutationPercentage)
+        self.set_hyper_parameter(Enums.hyperParam.numberOfCrossover, 2 * int(n_pop * p_crossover / 2))
+        self.set_hyper_parameter(Enums.hyperParam.numberOfMutation, int(n_pop * p_mutation))
+
+    def execute(self):
+        pass  # todo

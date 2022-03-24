@@ -42,6 +42,11 @@ class QAPProblem(Problem, ABC):
             Enums.algo.ga: QAPGeneticConvertor()
         }
 
+    def get_problem_operators_mapping(self) -> dict:
+        return {
+            Enums.algo.ga: QAPGeneticOperators()
+        }
+
 
 class QAPCalculator(ProblemCalculator, ABC):
     def get_objective_function(self, decision_variables: list[list]):

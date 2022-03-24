@@ -15,7 +15,7 @@ class HyperParameterStorage(DataStructure):
         return self
 
     def get_hyper_parameter(self, name):
-        assert name in self.parameterStorage.keys(), 'hyper parameter not found'
+        assert name in self.parameterStorage.keys(), 'hyper parameter ' + name + ' not found'
 
         return self.parameterStorage[name]
 

@@ -24,6 +24,10 @@ class Problem(DataStructure, ABC):
     def get_problem_convertors_mapping(self) -> dict:
         pass
 
+    @abstractmethod
+    def get_problem_operators_mapping(self) -> dict:
+        pass
+
     @staticmethod
     def get_from_url(url: str):
         request = requests.get(url)

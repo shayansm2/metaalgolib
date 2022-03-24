@@ -10,6 +10,10 @@ class Algorithm(FunctionObject, ABC):
         self.problem = None
         self.hyperParameter = HyperParameterStorage()
 
+    @abstractmethod
+    def get_algorithm_name(self) -> str:
+        pass
+
     def set_hyper_parameter(self, name, value):
         self.hyperParameter.set_hyper_parameter(name, value)
         return self
@@ -19,8 +23,16 @@ class Algorithm(FunctionObject, ABC):
 
     @abstractmethod
     def execute(self):
-        # TODO assert and init before execute
+        self.validate_inputs()
+        self.initiate()
         pass  # TODO should be implemented on the child
 
     def set_stop_criteria(self):
+        pass
+
+    def validate_inputs(self):
+        assert self.problem is not None, 'problem not defined'
+
+    @abstractmethod
+    def initiate(self):
         pass
