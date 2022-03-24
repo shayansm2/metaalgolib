@@ -1,9 +1,11 @@
 from abc import ABC
+from typing import Callable
 
 import numpy as np
+import pandas as pd
 
 from src.Enums import Enums
-from src.algorithms.lib.AlgorithmCalculator import AlgorithmCalculator
+from src.algorithms.genetic import GeneticOperators
 from src.problems.lib.Convertor import Convertor
 from src.problems.lib.Problem import Problem
 from src.problems.lib.ProblemCalculator import ProblemCalculator
@@ -70,3 +72,45 @@ class QAPGeneticConvertor(Convertor, ABC):
         # todo complete this
         return chromosome
 
+
+class QAPGeneticOperators(GeneticOperators, ABC):
+    @staticmethod
+    def random_generator(problem_size: int) -> list:
+        chromosome = np.arange(problem_size)
+        np.random.shuffle(chromosome)
+        return list(chromosome)
+
+    @staticmethod
+    def crossover(parent1: list, parent2: list) -> tuple:
+        p1 = np.random.rand(len(parent1))
+        p1.sort()
+        p1 = np.array(p1[parent1])
+        p2 = np.random.rand(len(parent2))
+        p2.sort()
+        p2 = np.array(p2[parent2])
+        alpha = np.random.rand()
+        c1 = pd.Series(alpha * p1 + (1 - alpha) * p2)
+        c2 = pd.Series((1 - alpha) * p1 + alpha * p2)
+        child1 = c1.sort_values().reset_index().reset_index().set_index('index').sort_index()['level_0'].tolist()
+        child2 = c2.sort_values().reset_index().reset_index().set_index('index').sort_index()['level_0'].tolist()
+        return child1, child2
+
+    @staticmethod
+    def mutation(parent: list) -> list:
+        a = np.arange(len(parent))
+        np.random.shuffle(a)
+        child = parent.copy()
+        child[a[0]], child[a[1]] = parent[a[1]], parent[a[0]]
+        return child
+
+    @classmethod
+    def get_random_generator(cls) -> Callable:
+        return cls.random_generator
+
+    @classmethod
+    def get_crossover_operator(cls) -> Callable:
+        return cls.crossover
+
+    @classmethod
+    def get_mutation_operator(cls) -> Callable:
+        return cls.mutation
