@@ -20,3 +20,10 @@ class Solution(DataStructure):
 
     def is_feasible(self) -> bool:
         return self.isFeasible
+
+    def set_decision_variables(self, decision_variables: any):
+        self.decisionVariables = decision_variables
+        return self
+
+    def get_decision_variables(self) -> any:
+        return self.decisionVariables

@@ -2,9 +2,11 @@
 
 ## A Library For Metaheurisitc Algorithms
 
-How it should work. (it's not working right now. in progress)
+**A python library for solving optimization problems using metaheuristic algorithms.**\
+This document will illustrate how to use it and how you can add new problems and algorithms to it.\
+*Have in mind that the first version of this project is not completed yet and is in progress.*
 
-For running
+For solving a pre-defined problem with a pre-writen algorithm, write the below script and change configs based on your requirements:
 
 ```python
 from src.AlgorithmFactory import AlgorithmFactory
