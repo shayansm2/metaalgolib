@@ -2,12 +2,11 @@ from abc import ABC
 
 import numpy as np
 
+from src.Enums import Enums
 from src.algorithms.lib.AlgorithmCalculator import AlgorithmCalculator
-from src.enums.algorithms import AlgorithmNames
-from src.enums.problems import ProblemNames
-from src.problems.lib.ProblemCalculator import ProblemCalculator
 from src.problems.lib.Convertor import Convertor
 from src.problems.lib.Problem import Problem
+from src.problems.lib.ProblemCalculator import ProblemCalculator
 
 
 class QAPProblem(Problem, ABC):
@@ -17,7 +16,7 @@ class QAPProblem(Problem, ABC):
         self.problem_size = None
 
     def get_problem_name(self) -> str:
-        return ProblemNames.qap
+        return Enums.problem.qap
 
     def set_parameters(self, url):
         string = super().get_from_url(url)
@@ -38,7 +37,7 @@ class QAPProblem(Problem, ABC):
 
     def get_problem_convertors_mapping(self) -> dict:
         return {
-            AlgorithmNames.ga: QAPGeneticConvertor()
+            Enums.algo.ga: QAPGeneticConvertor()
         }
 
 

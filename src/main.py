@@ -3,13 +3,12 @@ from src.Enums import Enums
 from src.problems.QAP import QAPProblem
 from src.lib.Solver import Solver
 
-enum = Enums()
-ga = AlgorithmFactory.get(enum.algo.ga)
+ga = AlgorithmFactory.get(Enums.algo.ga)
 
-ga.set_hyper_parameter(enum.hyperParam.numberOfIteration, 100) \
-    .set_hyper_parameter(enum.hyperParam.numberOfPopulation, 10) \
-    .set_hyper_parameter(enum.hyperParam.crossoverPercentage, 0.6) \
-    .set_hyper_parameter(enum.hyperParam.mutationPercentage, 0.1)
+ga.set_hyper_parameter(Enums.hyperParam.numberOfIteration, 100) \
+    .set_hyper_parameter(Enums.hyperParam.numberOfPopulation, 10) \
+    .set_hyper_parameter(Enums.hyperParam.crossoverPercentage, 0.6) \
+    .set_hyper_parameter(Enums.hyperParam.mutationPercentage, 0.1)
 
 qap = QAPProblem()
 qap.set_parameters(url='https://www.opt.math.tugraz.at/qaplib/data.d/bur26b.dat')

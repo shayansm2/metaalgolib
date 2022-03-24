@@ -4,7 +4,6 @@ from src.enums.problems import ProblemNames
 
 
 class Enums(object):
-    def __init__(self):
-        self.algo = AlgorithmNames()
-        self.hyperParam = HyperParameterNames()
-        self.problem = ProblemNames()
+    algo = AlgorithmNames()
+    hyperParam = HyperParameterNames()
+    problem = ProblemNames()
