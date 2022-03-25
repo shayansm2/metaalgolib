@@ -1,5 +1,5 @@
 from src.Enums import Enums
-from src.algorithms.genetic import GeneticAlgorithm
+from src.algorithms.Genetic import GeneticAlgorithm
 from src.algorithms.lib.Algorithm import Algorithm
 
 

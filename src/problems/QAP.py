@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 from src.Enums import Enums
-from src.algorithms.genetic import GeneticOperators
+from src.algorithms.Genetic import GeneticOperators
 from src.problems.lib.Convertor import Convertor
 from src.problems.lib.Problem import Problem
 from src.problems.lib.ProblemCalculator import ProblemCalculator

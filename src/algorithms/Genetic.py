@@ -55,9 +55,8 @@ class GeneticAlgorithm(PopulationBasedAlgorithm, ABC):
     def get_algorithm_operator_type(self) -> Type[Operators]:
         return GeneticOperators
 
-    def initiate(self):
-        super().initiate()
-        self.init_hyper_parameters()
+    def get_algorithm_builder_type(self) -> Type[EncodedSolutionBuilder]:
+        return GeneticEncodedSolutionBuilder
 
     def init_hyper_parameters(self):
         n_pop = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfPopulation)

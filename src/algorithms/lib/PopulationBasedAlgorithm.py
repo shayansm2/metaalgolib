@@ -2,12 +2,16 @@ from abc import ABC, abstractmethod
 from typing import Type
 
 from src.algorithms.lib.Algorithm import Algorithm
+from src.algorithms.lib.EncodedSolutionBuilder import EncodedSolutionBuilder
 from src.algorithms.lib.Operators import Operators
+from src.problems.lib.SolutionBuilder import SolutionBuilder
 
 
 class PopulationBasedAlgorithm(Algorithm, ABC):
     def __init__(self):
         super().__init__()
+        self.algorithm_builder = None
+        self.solution_builder = None
         self.calculator = None
         self.convertor = None
         self.operators = None
@@ -16,10 +20,20 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
     def get_algorithm_operator_type(self) -> Type[Operators]:
         pass
 
+    @abstractmethod
+    def get_algorithm_builder_type(self) -> Type[EncodedSolutionBuilder]:
+        pass
+
     def initiate(self):
+        self.init_hyper_parameters()
         self.init_calculator()
         self.init_convertor()
         self.init_operators()
+        self.init_builders()
+
+    @abstractmethod
+    def init_hyper_parameters(self):
+        pass
 
     def init_calculator(self):
         self.calculator = self.problem.get_problem_calculator()
@@ -40,6 +54,10 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
         assert isinstance(operators, self.get_algorithm_operator_type()), \
             'the defined operator is not suited for this algorithm'
         self.operators = operators
+
+    def init_builders(self):
+        self.solution_builder = SolutionBuilder(self.calculator)
+        self.algorithm_builder = self.get_algorithm_builder_type()(self.convertor, self.solution_builder)
 
     def set_selection_method(self):
         pass

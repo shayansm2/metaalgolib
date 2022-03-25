@@ -13,10 +13,6 @@ class Problem(DataStructure, ABC):
         pass
 
     @abstractmethod
-    def set_parameters(self, *args):
-        pass
-
-    @abstractmethod
     def get_problem_calculator(self) -> ProblemCalculator:
         pass
 
@@ -26,6 +22,10 @@ class Problem(DataStructure, ABC):
 
     @abstractmethod
     def get_problem_operators_mapping(self) -> dict:
+        pass
+
+    @abstractmethod
+    def set_parameters(self, *args):
         pass
 
     @staticmethod
