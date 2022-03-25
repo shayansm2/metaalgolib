@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import final, Callable, Type
+from abc import abstractmethod
+from typing import final, Type
 
 from src.Enums import Enums
 from src.algorithms.lib.EncodedSolution import EncodedSolution
@@ -23,7 +23,7 @@ class GeneticEncodedSolution(EncodedSolution):
 
 
 @final
-class GeneticEncodedSolutionBuilder(EncodedSolutionBuilder, ABC):
+class GeneticEncodedSolutionBuilder(EncodedSolutionBuilder):
     def build(self, chromosome: any) -> GeneticEncodedSolution:
         encoded_solution = GeneticEncodedSolution()
         encoded_solution.set_chromosome(chromosome)
@@ -36,19 +36,19 @@ class GeneticEncodedSolutionBuilder(EncodedSolutionBuilder, ABC):
         return self.calculator.get_cost_function(decoded_solution.get_objective_function_value())
 
 
-class GeneticOperators(Operators, ABC):
-    @classmethod
+class GeneticOperators(Operators):
+    @staticmethod
     @abstractmethod
-    def get_crossover_operator(cls) -> Callable:
+    def crossover(parent1: any, parent2: any) -> tuple:
         pass
 
-    @classmethod
+    @staticmethod
     @abstractmethod
-    def get_mutation_operator(cls) -> Callable:
+    def mutation(parent: any) -> any:
         pass
 
 
-class GeneticAlgorithm(PopulationBasedAlgorithm, ABC):
+class GeneticAlgorithm(PopulationBasedAlgorithm):
     def get_algorithm_name(self) -> str:
         return Enums.algo.ga
 
@@ -66,26 +66,30 @@ class GeneticAlgorithm(PopulationBasedAlgorithm, ABC):
         self.set_hyper_parameter(Enums.hyperParam.numberOfMutation, int(n_pop * p_mutation))
 
     def execute(self):
-        pass  # todo
+        n_pop = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfPopulation)
+        self.population.insert_many(self.create_random_solutions(n_pop))
+
+        for _ in self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfIteration):
+            pass
 
     def create_random_solutions(self, count) -> list:
         self.operators: GeneticOperators
 
         chromosomes = []
         for _ in range(count):
-            chromosomes.append(self.operators.get_random_generator()(self.problem))
+            chromosomes.append(self.operators.random_generator(self.problem))
 
         self.algorithm_builder: GeneticEncodedSolutionBuilder
         return list(map(self.algorithm_builder.build, chromosomes))
 
     def perform_crossover(self, parent1: GeneticEncodedSolution, parent2: GeneticEncodedSolution) -> tuple:
         self.operators: GeneticOperators
-        child1, child2 = self.operators.get_crossover_operator()(parent1.get_chromosome(), parent2.get_chromosome())
+        child1, child2 = self.operators.crossover(parent1.get_chromosome(), parent2.get_chromosome())
         self.algorithm_builder: GeneticEncodedSolutionBuilder
         return self.algorithm_builder.build(child1), self.algorithm_builder.build(child2)
 
     def perform_mutation(self, parent: GeneticEncodedSolution) -> GeneticEncodedSolution:
         self.operators: GeneticOperators
-        child = self.operators.get_mutation_operator()(parent.get_chromosome())
+        child = self.operators.mutation(parent.get_chromosome())
         self.algorithm_builder: GeneticEncodedSolutionBuilder
         return self.algorithm_builder.build(child)

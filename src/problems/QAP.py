@@ -1,4 +1,3 @@
-from abc import ABC
 from typing import Callable
 
 import numpy as np
@@ -11,7 +10,7 @@ from src.problems.lib.Problem import Problem
 from src.problems.lib.ProblemCalculator import ProblemCalculator
 
 
-class QAPProblem(Problem, ABC):
+class QAPProblem(Problem):
     def __init__(self):
         self.transport_cost_matrix = None
         self.facility_flow_matrix = None
@@ -48,7 +47,7 @@ class QAPProblem(Problem, ABC):
         }
 
 
-class QAPCalculator(ProblemCalculator, ABC):
+class QAPCalculator(ProblemCalculator):
     def get_objective_function(self, decision_variables: list[list]):
         self.problem: QAPProblem
 
@@ -61,7 +60,7 @@ class QAPCalculator(ProblemCalculator, ABC):
         return True
 
 
-class QAPGeneticConvertor(Convertor, ABC):
+class QAPGeneticConvertor(Convertor):
     @staticmethod
     def decode(chromosome: list) -> list[list]:
         n = len(chromosome)
@@ -78,7 +77,7 @@ class QAPGeneticConvertor(Convertor, ABC):
         return chromosome
 
 
-class QAPGeneticOperators(GeneticOperators, ABC):
+class QAPGeneticOperators(GeneticOperators):
     @staticmethod
     def random_generator(problem: Problem) -> list:  # not a good code, but I had no other idea
         assert isinstance(problem, QAPProblem), 'problem type is wrong'
@@ -109,15 +108,3 @@ class QAPGeneticOperators(GeneticOperators, ABC):
         child = parent.copy()
         child[a[0]], child[a[1]] = parent[a[1]], parent[a[0]]
         return child
-
-    @classmethod
-    def get_random_generator(cls) -> Callable:
-        return cls.random_generator
-
-    @classmethod
-    def get_crossover_operator(cls) -> Callable:
-        return cls.crossover
-
-    @classmethod
-    def get_mutation_operator(cls) -> Callable:
-        return cls.mutation

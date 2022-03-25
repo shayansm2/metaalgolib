@@ -1,11 +1,11 @@
 from abc import abstractmethod
-from typing import Callable
 
 from src.lib.DataStructure import DataStructure
+from src.problems.lib.Problem import Problem
 
 
 class Operators(DataStructure):
-    @classmethod
+    @staticmethod
     @abstractmethod
-    def get_random_generator(cls) -> Callable:
+    def random_generator(problem: Problem) -> any:
         pass

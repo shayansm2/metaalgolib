@@ -6,7 +6,7 @@ from src.problems.lib.Problem import Problem
 from src.problems.lib.ProblemCalculator import ProblemCalculator
 
 
-class CustomProblem(Problem, ABC):
+class CustomProblem(Problem):
     def get_problem_name(self) -> str:
         # return problem name
         pass
@@ -35,7 +35,7 @@ class CustomProblem(Problem, ABC):
 
 
 # problem calculators aim is to calculate the objective function and check the feasibility of a solution
-class CustomProblemCalculator(ProblemCalculator, ABC):
+class CustomProblemCalculator(ProblemCalculator):
     def get_objective_function(self, decision_variables: any):
         # this method should calculate the objective function of given decision variables
         pass
@@ -48,7 +48,7 @@ class CustomProblemCalculator(ProblemCalculator, ABC):
 # following two classes should be implemented for each algorithm you want to use for this problem
 
 # convertors should convert the decision variable to algorithm's solution representation and vice versa
-class CustomProblemCustomAlgorithmConvertor(Convertor, ABC):
+class CustomProblemCustomAlgorithmConvertor(Convertor):
     @staticmethod
     def decode(encoded: any):
         # this method should convert the algorithm's solution representation to decision variable
