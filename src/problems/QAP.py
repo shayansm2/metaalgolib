@@ -80,7 +80,9 @@ class QAPGeneticConvertor(Convertor, ABC):
 
 class QAPGeneticOperators(GeneticOperators, ABC):
     @staticmethod
-    def random_generator(problem_size: int) -> list:
+    def random_generator(problem: Problem) -> list:  # not a good code, but I had no other idea
+        assert isinstance(problem, QAPProblem), 'problem type is wrong'
+        problem_size = problem.problem_size
         chromosome = np.arange(problem_size)
         np.random.shuffle(chromosome)
         return list(chromosome)

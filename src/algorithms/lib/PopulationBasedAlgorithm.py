@@ -4,6 +4,7 @@ from typing import Type
 from src.algorithms.lib.Algorithm import Algorithm
 from src.algorithms.lib.EncodedSolutionBuilder import EncodedSolutionBuilder
 from src.algorithms.lib.Operators import Operators
+from src.algorithms.lib.population.BasePopulation import BasePopulation
 from src.problems.lib.SolutionBuilder import SolutionBuilder
 
 
@@ -11,10 +12,11 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
     def __init__(self):
         super().__init__()
         self.algorithm_builder = None
-        self.solution_builder = None
         self.calculator = None
         self.convertor = None
         self.operators = None
+        self.population = None
+        self.solution_builder = None
 
     @abstractmethod
     def get_algorithm_operator_type(self) -> Type[Operators]:
@@ -30,6 +32,7 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
         self.init_convertor()
         self.init_operators()
         self.init_builders()
+        self.init_population()
 
     @abstractmethod
     def init_hyper_parameters(self):
@@ -58,6 +61,9 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
     def init_builders(self):
         self.solution_builder = SolutionBuilder(self.calculator)
         self.algorithm_builder = self.get_algorithm_builder_type()(self.convertor, self.solution_builder)
+
+    def init_population(self):
+        self.population = BasePopulation()
 
     def set_selection_method(self):
         pass

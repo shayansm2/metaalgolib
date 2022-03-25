@@ -67,3 +67,25 @@ class GeneticAlgorithm(PopulationBasedAlgorithm, ABC):
 
     def execute(self):
         pass  # todo
+
+    def create_random_solutions(self, count) -> list:
+        self.operators: GeneticOperators
+
+        chromosomes = []
+        for _ in range(count):
+            chromosomes.append(self.operators.get_random_generator()(self.problem))
+
+        self.algorithm_builder: GeneticEncodedSolutionBuilder
+        return list(map(self.algorithm_builder.build, chromosomes))
+
+    def perform_crossover(self, parent1: GeneticEncodedSolution, parent2: GeneticEncodedSolution) -> tuple:
+        self.operators: GeneticOperators
+        child1, child2 = self.operators.get_crossover_operator()(parent1.get_chromosome(), parent2.get_chromosome())
+        self.algorithm_builder: GeneticEncodedSolutionBuilder
+        return self.algorithm_builder.build(child1), self.algorithm_builder.build(child2)
+
+    def perform_mutation(self, parent: GeneticEncodedSolution) -> GeneticEncodedSolution:
+        self.operators: GeneticOperators
+        child = self.operators.get_mutation_operator()(parent.get_chromosome())
+        self.algorithm_builder: GeneticEncodedSolutionBuilder
+        return self.algorithm_builder.build(child)
