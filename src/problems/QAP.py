@@ -4,16 +4,19 @@ import pandas as pd
 from src.Enums import Enums
 from src.algorithms.Genetic import GeneticOperators
 from src.problems.lib.Convertor import Convertor
+from src.problems.lib.ParameterStorage import ParameterStorage
 from src.problems.lib.Problem import Problem
 from src.problems.lib.ProblemCalculator import ProblemCalculator
 
 
-class QAPProblem(Problem):
+class QAPParameters(ParameterStorage):
     def __init__(self):
-        self.transport_cost_matrix = None
-        self.facility_flow_matrix = None
         self.problem_size = None
+        self.facility_flow_matrix = None
+        self.transport_cost_matrix = None
 
+
+class QAPProblem(Problem):
     def get_problem_name(self) -> str:
         return Enums.problem.qap
 
@@ -21,18 +24,25 @@ class QAPProblem(Problem):
         string = super().get_from_url(url)
         problem = string.split('\n\n')
 
-        self.problem_size = int(problem[0])
+        self.parameters: QAPParameters
+        problem_size = int(problem[0])
 
-        self.facility_flow_matrix = \
-            np.array([int(i) for i in problem[1].split()]).reshape(self.problem_size, self.problem_size)
+        self.parameters.problem_size = int(problem[0])
 
-        self.transport_cost_matrix = \
-            np.array([int(i) for i in problem[2].split()]).reshape(self.problem_size, self.problem_size)
+        self.parameters.facility_flow_matrix = \
+            np.array([int(i) for i in problem[1].split()]).reshape(problem_size, problem_size)
+
+        self.parameters.transport_cost_matrix = \
+            np.array([int(i) for i in problem[2].split()]).reshape(problem_size, problem_size)
 
         return self
 
+    def get_parameter_storage(self) -> ParameterStorage:
+        return QAPParameters()
+
     def get_problem_calculator(self) -> ProblemCalculator:
-        return QAPCalculator(self)
+        assert self.parameters is not None, 'something bad happened'
+        return QAPCalculator(self.parameters)
 
     def get_problem_convertors_mapping(self) -> dict:
         return {
@@ -47,10 +57,10 @@ class QAPProblem(Problem):
 
 class QAPCalculator(ProblemCalculator):
     def get_objective_function(self, decision_variables: list[list]):
-        self.problem: QAPProblem
+        self.parameters: QAPParameters
 
-        flow = self.problem.facility_flow_matrix
-        cost = self.problem.transport_cost_matrix
+        flow = self.parameters.facility_flow_matrix
+        cost = self.parameters.transport_cost_matrix
         decision_variables = np.array(decision_variables)
         return sum(sum(flow * np.dot(np.dot(decision_variables.transpose(), cost), decision_variables)))
 
@@ -79,7 +89,7 @@ class QAPGeneticOperators(GeneticOperators):
     @staticmethod
     def random_generator(problem: Problem) -> list:  # not a good code, but I had no other idea
         assert isinstance(problem, QAPProblem), 'problem type is wrong'
-        problem_size = problem.problem_size
+        problem_size = problem.parameters.problem_size
         chromosome = np.arange(problem_size)
         np.random.shuffle(chromosome)
         return list(chromosome)

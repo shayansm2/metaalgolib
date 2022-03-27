@@ -4,12 +4,20 @@ import pandas as pd
 import requests as requests
 
 from src.lib.DataStructure import DataStructure
+from src.problems.lib.ParameterStorage import ParameterStorage
 from src.problems.lib.ProblemCalculator import ProblemCalculator
 
 
 class Problem(DataStructure, ABC):
+    def __init__(self):
+        self.parameters = None
+
     @abstractmethod
     def get_problem_name(self) -> str:
+        pass
+
+    @abstractmethod
+    def get_parameter_storage(self) -> ParameterStorage:
         pass
 
     @abstractmethod
@@ -26,6 +34,7 @@ class Problem(DataStructure, ABC):
 
     @abstractmethod
     def set_parameters(self, *args):
+        self.parameters = self.get_parameter_storage()
         pass
 
     @staticmethod

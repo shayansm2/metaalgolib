@@ -2,6 +2,7 @@ from abc import ABC
 
 from src.algorithms.CustomAlgorithm import CustomAlgorithmOperators
 from src.problems.lib.Convertor import Convertor
+from src.problems.lib.ParameterStorage import ParameterStorage
 from src.problems.lib.Problem import Problem
 from src.problems.lib.ProblemCalculator import ProblemCalculator
 
@@ -11,8 +12,11 @@ class CustomProblem(Problem):
         # return problem name
         pass
 
+    def get_parameter_storage(self) -> ParameterStorage:
+        return CustomParameters()
+
     def get_problem_calculator(self) -> ProblemCalculator:
-        return CustomProblemCalculator(self)
+        return CustomProblemCalculator(self.parameters)  # todo def to parent, only type in child
 
     def get_problem_convertors_mapping(self) -> dict:
         return {
@@ -43,6 +47,10 @@ class CustomProblemCalculator(ProblemCalculator):
     def check_is_feasible(self, decision_variables: any):
         # this method should check whether a solution is feasible or not given decision variables
         pass
+
+
+class CustomParameters(ParameterStorage):
+    pass
 
 
 # following two classes should be implemented for each algorithm you want to use for this problem
