@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+from src.algorithms.lib.AlgorithmResult import AlgorithmResult
 from src.algorithms.lib.HyperParameterStorage import HyperParameterStorage
 from src.lib.FunctionObject import FunctionObject
 from src.problems.lib.Problem import Problem
@@ -9,6 +10,8 @@ class Algorithm(FunctionObject, ABC):
     def __init__(self):
         self.problem = None
         self.hyperParameter = HyperParameterStorage()
+        self.result = AlgorithmResult()
+        self.keepLog = False
 
     @abstractmethod
     def get_algorithm_name(self) -> str:
@@ -36,3 +39,10 @@ class Algorithm(FunctionObject, ABC):
     @abstractmethod
     def initiate(self):
         pass
+
+    def get_result(self) -> AlgorithmResult:
+        return self.result
+
+    def keep_log(self):
+        self.keepLog = True
+        return self

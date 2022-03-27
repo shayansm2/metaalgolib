@@ -11,6 +11,7 @@ class Solver(FunctionObject):
 
     def with_plot(self):
         self.withPlot = True
+        self.algorithm.keep_log()
 
     def solve(self):
         self.algorithm.set_problem(self.problem)
@@ -21,4 +22,4 @@ class Solver(FunctionObject):
 
     def show_plot(self):
         assert self.withPlot, 'cannot display the plot. please set the with_plot before running the solver'
-        pass
+        print(self.algorithm.get_result().get_answer_logs())  # todo

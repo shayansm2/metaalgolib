@@ -71,10 +71,10 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
         n_mutation = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfMutation)
         n_generation = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfIteration)
 
-        self.population.insert_many(self.create_random_solutions(n_pop))
+        self.population.insert_many(self.create_random_solutions(n_pop))  # todo initial selection
 
-        for _ in n_generation:
-            parents = self.population.get_top_individuals(n_crossover * 2)
+        for _ in n_generation:  # todo stop condition
+            parents = self.population.get_top_individuals(n_crossover * 2)  # todo parent selection
             crossover_children = []
 
             for i in range(n_crossover):
@@ -91,9 +91,12 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
             self.population.insert_many(crossover_children)
             self.population.insert_many(mutation_children)
 
-            self.population.keep_top_individuals(n_pop)
+            self.population.keep_top_individuals(n_pop)  # todo generation selection
 
-        pass
+            if self.keepLog:  # todo move to parent
+                self.result.insert_answer_log(self.population.get_best_answer())
+
+        self.result.set_best_answer(self.population.get_best_answer())
 
     def create_random_solutions(self, count) -> list:
         self.operators: GeneticOperators
