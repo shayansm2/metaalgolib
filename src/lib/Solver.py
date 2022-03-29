@@ -1,6 +1,7 @@
 from src.algorithms.lib.Algorithm import Algorithm
 from src.lib.FunctionObject import FunctionObject
 from src.problems.lib.Problem import Problem
+from src.problems.lib.Solution import Solution
 
 
 class Solver(FunctionObject):
@@ -17,8 +18,8 @@ class Solver(FunctionObject):
         self.algorithm.set_problem(self.problem)
         self.algorithm.execute()
 
-    def get_best_found_answer(self):
-        pass
+    def get_best_found_answer(self) -> Solution:
+        return self.algorithm.result.get_best_answer().get_decoded_solution()
 
     def show_plot(self):
         assert self.withPlot, 'cannot display the plot. please set the with_plot before running the solver'

@@ -7,6 +7,7 @@ from src.problems.lib.Problem import Problem
 from src.problems.lib.ProblemCalculator import ProblemCalculator
 
 
+# todo update this and README
 class CustomProblem(Problem):
     def get_problem_name(self) -> str:
         # return problem name

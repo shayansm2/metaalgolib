@@ -30,3 +30,6 @@ class Solution(DataStructure):
 
     def get_decision_variables(self) -> any:
         return self.decisionVariables
+
+    def __repr__(self):
+        return str(self.objectiveFunctionValue)

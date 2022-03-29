@@ -13,7 +13,7 @@ class EncodedSolutionBuilder(FunctionObject, ABC):
             self,
             convertor: Convertor,
             solution_builder: SolutionBuilder,
-            calculator: AlgorithmCalculator = BaseAlgorithmCalculator
+            calculator: AlgorithmCalculator = BaseAlgorithmCalculator()
     ):
         self.convertor = convertor
         self.solutionBuilder = solution_builder

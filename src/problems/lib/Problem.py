@@ -10,7 +10,7 @@ from src.problems.lib.ProblemCalculator import ProblemCalculator
 
 class Problem(DataStructure, ABC):
     def __init__(self):
-        self.parameters = None
+        self.parameters = ParameterStorage()
 
     @abstractmethod
     def get_problem_name(self) -> str:

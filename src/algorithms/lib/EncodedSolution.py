@@ -18,5 +18,5 @@ class EncodedSolution(DataStructure):
         self.decodedSolution = decoded_solution
         return self
 
-    def get_decoded_solution(self):
+    def get_decoded_solution(self) -> Solution:
         return self.decodedSolution
