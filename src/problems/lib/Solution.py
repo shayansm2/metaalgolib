@@ -32,4 +32,10 @@ class Solution(DataStructure):
         return self.decisionVariables
 
     def __repr__(self):
-        return str(self.objectiveFunctionValue)
+        output = ''
+        output += ('objective function: ' + str(self.objectiveFunctionValue) + '\n')
+        output += ('is feasible: ' + ('YES' if self.is_feasible() else 'NO') + '\n')
+        output += '\n'
+        output += ('decision variables: ' + str(self.decisionVariables) + '\n')
+
+        return output

@@ -47,12 +47,12 @@ class BasePopulation(Population):
         assert self.population != [], 'population is empty'
         assert count < len(self.population), 'count is more than population'
 
-        self.population.sort(key=lambda x: x.get_cost_function_value(), reverse=True)
+        self.population.sort(key=lambda x: x.get_cost_function_value(), reverse=False)
         self.is_sorted = True
         return self.population[:count]
 
     def keep_top_individuals(self, count: int):
         count = min(count, len(self.population))
-        self.population.sort(key=lambda x: x.get_cost_function_value(), reverse=True)
+        self.population.sort(key=lambda x: x.get_cost_function_value(), reverse=False)
         self.is_sorted = True
         self.population = self.population[:count]

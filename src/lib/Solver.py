@@ -1,4 +1,7 @@
+import matplotlib.pyplot as plt
+
 from src.algorithms.lib.Algorithm import Algorithm
+from src.algorithms.lib.EncodedSolution import EncodedSolution
 from src.lib.FunctionObject import FunctionObject
 from src.problems.lib.Problem import Problem
 from src.problems.lib.Solution import Solution
@@ -23,4 +26,13 @@ class Solver(FunctionObject):
 
     def show_plot(self):
         assert self.withPlot, 'cannot display the plot. please set the with_plot before running the solver'
-        print(self.algorithm.get_result().get_answer_logs())  # todo
+
+        plt.plot(list(map(self.get_objective_function_values, self.algorithm.get_result().get_answer_logs())))
+        plt.ylabel('objective function value')
+        plt.xlabel('generation number')
+        plt.show()
+
+    @staticmethod
+    def get_objective_function_values(solution: EncodedSolution):
+        return solution.get_decoded_solution().get_objective_function_value()
+

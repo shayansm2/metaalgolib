@@ -20,5 +20,5 @@ class AlgorithmResult(DataStructure):
         self.answerLogs.append(answer)
         return self
 
-    def get_answer_logs(self):
+    def get_answer_logs(self) -> Optional[list[EncodedSolution]]:
         return self.answerLogs
