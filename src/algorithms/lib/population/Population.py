@@ -31,3 +31,7 @@ class Population(DataStructure, ABC):
     @abstractmethod
     def keep_top_individuals(self, count: int):
         pass
+
+    @abstractmethod
+    def get_all(self) -> list[EncodedSolution]:
+        pass

@@ -56,3 +56,6 @@ class BasePopulation(Population):
         self.population.sort(key=lambda x: x.get_cost_function_value(), reverse=False)
         self.is_sorted = True
         self.population = self.population[:count]
+
+    def get_all(self) -> list[EncodedSolution]:
+        return self.population

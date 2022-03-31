@@ -12,10 +12,17 @@ class Solver(FunctionObject):
         self.algorithm = algorithm
         self.problem = problem
         self.withPlot = False
+        self.withConvergenceAnalysis = False
 
     def with_plot(self):
         self.withPlot = True
         self.algorithm.keep_log()
+        return self
+
+    def with_convergence_report(self):
+        self.withConvergenceAnalysis = True
+        self.algorithm.keep_unique_answers()
+        return self
 
     def solve(self):
         self.algorithm.set_problem(self.problem)
@@ -24,13 +31,18 @@ class Solver(FunctionObject):
     def get_best_found_answer(self) -> Solution:
         return self.algorithm.result.get_best_answer().get_decoded_solution()
 
-    def show_plot(self):
-        assert self.withPlot, 'cannot display the plot. please set the with_plot before running the solver'
+    def show_plots(self):
+        if self.withPlot:
+            plt.plot(list(map(self.get_objective_function_values, self.algorithm.get_result().get_answer_logs())))
+            plt.ylabel('objective function value')
+            plt.xlabel('generation number')
+            plt.show()
 
-        plt.plot(list(map(self.get_objective_function_values, self.algorithm.get_result().get_answer_logs())))
-        plt.ylabel('objective function value')
-        plt.xlabel('generation number')
-        plt.show()
+        if self.withConvergenceAnalysis:
+            plt.plot(self.algorithm.get_result().get_unique_answer_count())
+            plt.ylabel('# unique answers')
+            plt.xlabel('generation number')
+            plt.show()
 
     @staticmethod
     def get_objective_function_values(solution: EncodedSolution):

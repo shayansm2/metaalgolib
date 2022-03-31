@@ -97,6 +97,9 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
             if self.keepLog:  # todo move to parent
                 self.result.insert_answer_log(self.population.get_best_answer())
 
+            if self.keepUniqueAnswers:  # todo move to parent
+                self.result.insert_unique_answer_count(self.calculate_number_of_unique_answers())
+
         self.result.set_best_answer(self.population.get_best_answer())
 
     def create_random_solutions(self, count) -> list:
@@ -120,3 +123,16 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
         child = self.operators.mutation(parent.get_chromosome())
         self.algorithm_builder: GeneticEncodedSolutionBuilder
         return self.algorithm_builder.build(child)
+
+    def calculate_number_of_unique_answers(self) -> int:
+        unique_answers = {}
+        for encodedSolution in self.population.get_all():
+            encodedSolution: GeneticEncodedSolution
+            hash_value = self.get_hash(encodedSolution.get_chromosome())
+
+            if unique_answers.get(hash_value):
+                unique_answers[hash_value] += 1
+            else:
+                unique_answers[hash_value] = 1
+
+        return len(unique_answers)

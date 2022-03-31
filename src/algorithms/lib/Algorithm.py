@@ -1,3 +1,4 @@
+import hashlib
 from abc import ABC, abstractmethod
 
 from src.algorithms.lib.AlgorithmResult import AlgorithmResult
@@ -12,6 +13,7 @@ class Algorithm(FunctionObject, ABC):
         self.hyperParameter = HyperParameterStorage()
         self.result = AlgorithmResult()
         self.keepLog = False
+        self.keepUniqueAnswers = False
 
     @abstractmethod
     def get_algorithm_name(self) -> str:
@@ -46,3 +48,12 @@ class Algorithm(FunctionObject, ABC):
     def keep_log(self):
         self.keepLog = True
         return self
+
+    def keep_unique_answers(self):
+        self.keepUniqueAnswers = True
+        return self
+
+    @staticmethod
+    def get_hash(data: any):
+        pass
+        # return hashlib.md5(str(data)).

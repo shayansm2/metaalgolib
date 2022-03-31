@@ -8,6 +8,7 @@ class AlgorithmResult(DataStructure):
     def __init__(self):
         self.bestAnswer = None
         self.answerLogs = []
+        self.uniqueCount = []
 
     def set_best_answer(self, best_answer: EncodedSolution):
         self.bestAnswer = best_answer
@@ -22,3 +23,10 @@ class AlgorithmResult(DataStructure):
 
     def get_answer_logs(self) -> Optional[list[EncodedSolution]]:
         return self.answerLogs
+
+    def insert_unique_answer_count(self, count: int):
+        self.uniqueCount.append(count)
+        return self
+
+    def get_unique_answer_count(self) -> Optional[list]:
+        return self.uniqueCount

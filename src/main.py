@@ -14,8 +14,9 @@ qap = QAPProblem()
 qap.set_parameters(url='https://www.opt.math.tugraz.at/qaplib/data.d/chr12a.dat')
 
 solver = Solver(ga, qap)
-solver.with_plot()
+solver.with_plot().with_convergence_report()
+
 solver.solve()
 
 print(solver.get_best_found_answer())
-solver.show_plot()
+solver.show_plots()
