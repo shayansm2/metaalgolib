@@ -8,7 +8,7 @@ from src.problems.lib.Convertor import Convertor
 from src.problems.lib.SolutionBuilder import SolutionBuilder
 
 
-class EncodedSolutionBuilder(FunctionObject, ABC):
+class EncodedSolutionBuilder(FunctionObject, ABC):  # todo make it final using encoded / knowledge representation
     def __init__(
             self,
             convertor: Convertor,
