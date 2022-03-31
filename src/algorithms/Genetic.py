@@ -1,3 +1,4 @@
+import random
 from abc import abstractmethod
 from typing import final, Type
 
@@ -76,6 +77,7 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
         generation_number = 1
         while generation_number <= n_generation:  # todo stop condition
             parents = self.population.get_top_individuals(n_crossover * 2)  # todo parent selection
+            random.shuffle(parents)
             crossover_children = []
 
             for i in range(n_crossover):
@@ -126,7 +128,7 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
         self.algorithm_builder: GeneticEncodedSolutionBuilder
         return self.algorithm_builder.build(child)
 
-    def calculate_number_of_unique_answers(self) -> int:
+    def calculate_number_of_unique_answers(self) -> int:  # todo move to parent
         unique_answers = {}
         for encodedSolution in self.population.get_all():
             encodedSolution: GeneticEncodedSolution
