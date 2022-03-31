@@ -24,7 +24,7 @@ qap = QAPProblem()
 qap.set_parameters(url='https://www.opt.math.tugraz.at/qaplib/data.d/bur26b.dat')
 
 solver = Solver(ga, qap)
-solver.with_plot()
+solver.with_objective_function_progress()
 solver.solve()
 
 print(solver.get_best_found_answer())

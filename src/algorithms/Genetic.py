@@ -65,8 +65,7 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
         self.set_hyper_parameter(Enums.hyperParam.numberOfCrossover, 2 * int(n_pop * p_crossover / 2))
         self.set_hyper_parameter(Enums.hyperParam.numberOfMutation, int(n_pop * p_mutation))
 
-    def execute(self):
-        super().execute()  # todo bad practice
+    def run(self):
         n_pop = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfPopulation)
         n_crossover = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfCrossover)
         n_mutation = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfMutation)
@@ -74,7 +73,8 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
 
         self.population.insert_many(self.create_random_solutions(n_pop))  # todo initial selection
 
-        for _ in range(n_generation):  # todo stop condition
+        generation_number = 1
+        while generation_number <= n_generation:  # todo stop condition
             parents = self.population.get_top_individuals(n_crossover * 2)  # todo parent selection
             crossover_children = []
 
@@ -99,6 +99,8 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
 
             if self.keepUniqueAnswers:  # todo move to parent
                 self.result.insert_unique_answer_count(self.calculate_number_of_unique_answers())
+
+            generation_number += 1
 
         self.result.set_best_answer(self.population.get_best_answer())
 

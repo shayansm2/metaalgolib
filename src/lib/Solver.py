@@ -11,11 +11,11 @@ class Solver(FunctionObject):
     def __init__(self, algorithm: Algorithm, problem: Problem):
         self.algorithm = algorithm
         self.problem = problem
-        self.withPlot = False
+        self.withObjectiveFunctionProgress = False
         self.withConvergenceAnalysis = False
 
-    def with_plot(self):
-        self.withPlot = True
+    def with_objective_function_progress(self):
+        self.withObjectiveFunctionProgress = True
         self.algorithm.keep_log()
         return self
 
@@ -32,19 +32,26 @@ class Solver(FunctionObject):
         return self.algorithm.result.get_best_answer().get_decoded_solution()
 
     def show_plots(self):
-        if self.withPlot:
-            plt.plot(list(map(self.get_objective_function_values, self.algorithm.get_result().get_answer_logs())))
-            plt.ylabel('objective function value')
-            plt.xlabel('generation number')
-            plt.show()
+        if self.withObjectiveFunctionProgress:
+            self.show_objective_function_progress()
 
         if self.withConvergenceAnalysis:
-            plt.plot(self.algorithm.get_result().get_unique_answer_count())
-            plt.ylabel('# unique answers')
-            plt.xlabel('generation number')
-            plt.show()
+            self.show_convergence_analysis()
+
+    def show_objective_function_progress(self):
+        plt.plot(list(map(self.get_objective_function_values, self.algorithm.get_result().get_answer_logs())))
+        plt.title('Objective Function Progress')
+        plt.ylabel('objective function value')
+        plt.xlabel('generation number')
+        plt.show()
+
+    def show_convergence_analysis(self):
+        plt.plot(self.algorithm.get_result().get_unique_answer_count(), color='red')
+        plt.title('Convergence Analysis')
+        plt.ylabel('# unique answers')
+        plt.xlabel('generation number')
+        plt.show()
 
     @staticmethod
     def get_objective_function_values(solution: EncodedSolution):
         return solution.get_decoded_solution().get_objective_function_value()
-

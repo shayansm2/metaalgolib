@@ -1,5 +1,6 @@
 import hashlib
 from abc import ABC, abstractmethod
+from typing import final
 
 from src.algorithms.lib.AlgorithmResult import AlgorithmResult
 from src.algorithms.lib.HyperParameterStorage import HyperParameterStorage
@@ -26,11 +27,11 @@ class Algorithm(FunctionObject, ABC):
     def set_problem(self, problem: Problem):
         self.problem = problem
 
-    @abstractmethod
+    @final
     def execute(self):
         self.validate_inputs()
         self.initiate()
-        pass  # TODO should be implemented on the child
+        self.run()
 
     def set_stop_criteria(self):
         pass
@@ -40,6 +41,10 @@ class Algorithm(FunctionObject, ABC):
 
     @abstractmethod
     def initiate(self):
+        pass
+
+    @abstractmethod
+    def run(self):
         pass
 
     def get_result(self) -> AlgorithmResult:
@@ -55,5 +60,4 @@ class Algorithm(FunctionObject, ABC):
 
     @staticmethod
     def get_hash(data: any):
-        pass
-        # return hashlib.md5(str(data)).
+        return hashlib.md5(str(data).encode()).hexdigest()
