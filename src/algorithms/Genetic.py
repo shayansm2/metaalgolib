@@ -86,13 +86,17 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
         parents = self.population.get_top_individuals(n_crossover * 2)  # todo parent selection
         random.shuffle(parents)
         crossover_children = []
+
         for i in range(n_crossover):
             crossover_children += self.perform_crossover(parents[2 * i], parents[2 * i + 1])
         self.population.insert_many(crossover_children)
+
         parents = self.population.get_random_individuals(n_mutation)
         mutation_children = []
+
         for parent in parents:
             mutation_children.append(self.perform_mutation(parent))
+
         self.population.insert_many(crossover_children)
         self.population.insert_many(mutation_children)
         self.population.keep_top_individuals(n_pop)  # todo generation selection
