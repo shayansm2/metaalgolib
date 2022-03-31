@@ -17,6 +17,7 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
         self.operators = None
         self.population = None
         self.solution_builder = None
+        self.generationNumber = 0
 
     @abstractmethod
     def get_algorithm_operator_type(self) -> Type[Operators]:
@@ -67,3 +68,29 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
 
     def set_selection_method(self):
         pass
+
+    @abstractmethod
+    def run_per_generation(self, *args):
+        pass
+
+    def _run_per_generation(self, *args):
+        self.run_per_generation(*args)
+
+        if self.keepLog:
+            self.result.insert_answer_log(self.population.get_best_answer())
+        if self.keepUniqueAnswers:
+            self.result.insert_unique_answer_count(self.calculate_number_of_unique_answers())
+
+        self.generationNumber += 1
+
+    def calculate_number_of_unique_answers(self) -> int:
+        unique_answers = {}
+        for encodedSolution in self.population.get_all():
+            hash_value = self.get_hash(encodedSolution.get_encoded_representation())
+
+            if unique_answers.get(hash_value):
+                unique_answers[hash_value] += 1
+            else:
+                unique_answers[hash_value] = 1
+
+        return len(unique_answers)

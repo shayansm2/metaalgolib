@@ -22,6 +22,9 @@ class GeneticEncodedSolution(EncodedSolution):
     def get_chromosome(self):
         return self.chromosome
 
+    def get_encoded_representation(self):
+        return self.chromosome
+
 
 @final
 class GeneticEncodedSolutionBuilder(EncodedSolutionBuilder):
@@ -74,37 +77,25 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
 
         self.population.insert_many(self.create_random_solutions(n_pop))  # todo initial selection
 
-        generation_number = 1
-        while generation_number <= n_generation:  # todo stop condition
-            parents = self.population.get_top_individuals(n_crossover * 2)  # todo parent selection
-            random.shuffle(parents)
-            crossover_children = []
-
-            for i in range(n_crossover):
-                crossover_children += self.perform_crossover(parents[2 * i], parents[2 * i + 1])
-
-            self.population.insert_many(crossover_children)
-
-            parents = self.population.get_random_individuals(n_mutation)
-            mutation_children = []
-
-            for parent in parents:
-                mutation_children.append(self.perform_mutation(parent))
-
-            self.population.insert_many(crossover_children)
-            self.population.insert_many(mutation_children)
-
-            self.population.keep_top_individuals(n_pop)  # todo generation selection
-
-            if self.keepLog:  # todo move to parent
-                self.result.insert_answer_log(self.population.get_best_answer())
-
-            if self.keepUniqueAnswers:  # todo move to parent
-                self.result.insert_unique_answer_count(self.calculate_number_of_unique_answers())
-
-            generation_number += 1
+        while self.generationNumber <= n_generation:  # todo stop condition
+            self._run_per_generation(n_crossover, n_mutation, n_pop)
 
         self.result.set_best_answer(self.population.get_best_answer())
+
+    def run_per_generation(self, n_crossover, n_mutation, n_pop):
+        parents = self.population.get_top_individuals(n_crossover * 2)  # todo parent selection
+        random.shuffle(parents)
+        crossover_children = []
+        for i in range(n_crossover):
+            crossover_children += self.perform_crossover(parents[2 * i], parents[2 * i + 1])
+        self.population.insert_many(crossover_children)
+        parents = self.population.get_random_individuals(n_mutation)
+        mutation_children = []
+        for parent in parents:
+            mutation_children.append(self.perform_mutation(parent))
+        self.population.insert_many(crossover_children)
+        self.population.insert_many(mutation_children)
+        self.population.keep_top_individuals(n_pop)  # todo generation selection
 
     def create_random_solutions(self, count) -> list:
         self.operators: GeneticOperators
@@ -127,16 +118,3 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
         child = self.operators.mutation(parent.get_chromosome())
         self.algorithm_builder: GeneticEncodedSolutionBuilder
         return self.algorithm_builder.build(child)
-
-    def calculate_number_of_unique_answers(self) -> int:  # todo move to parent
-        unique_answers = {}
-        for encodedSolution in self.population.get_all():
-            encodedSolution: GeneticEncodedSolution
-            hash_value = self.get_hash(encodedSolution.get_chromosome())
-
-            if unique_answers.get(hash_value):
-                unique_answers[hash_value] += 1
-            else:
-                unique_answers[hash_value] = 1
-
-        return len(unique_answers)

@@ -1,3 +1,5 @@
+from abc import abstractmethod
+
 from src.lib.DataStructure import DataStructure
 from src.problems.lib.Solution import Solution
 
@@ -20,3 +22,7 @@ class EncodedSolution(DataStructure):
 
     def get_decoded_solution(self) -> Solution:
         return self.decodedSolution
+
+    @abstractmethod
+    def get_encoded_representation(self):
+        pass
