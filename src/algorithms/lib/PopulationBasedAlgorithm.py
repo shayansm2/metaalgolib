@@ -21,7 +21,7 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
         self.generationNumber = 0
 
     @abstractmethod
-    def get_algorithm_operator_type(self) -> Type[Operators]:
+    def get_algorithm_operator(self) -> Type[Operators]:
         pass
 
     @abstractmethod
@@ -56,7 +56,7 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
         assert self.get_algorithm_name() in all_operators.keys(), \
             'algorithm cannot solve the problem. please define the operators for the algorithm'
         operators = all_operators[self.get_algorithm_name()]
-        assert isinstance(operators, self.get_algorithm_operator_type()), \
+        assert isinstance(operators, self.get_algorithm_operator()), \
             'the defined operator is not suited for this algorithm'
         self.operators = operators
 

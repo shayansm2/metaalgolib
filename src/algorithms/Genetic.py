@@ -45,7 +45,7 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
     def get_algorithm_name(self) -> str:
         return Enums.algo.ga
 
-    def get_algorithm_operator_type(self) -> Type[Operators]:
+    def get_algorithm_operator(self) -> Type[Operators]:
         return GeneticOperators
 
     def get_algorithm_encoded_solution_type(self) -> Type[EncodedSolution]:
