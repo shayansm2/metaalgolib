@@ -25,19 +25,8 @@ class GeneticEncodedSolution(EncodedSolution):
     def get_encoded_representation(self):
         return self.chromosome
 
-
-@final
-class GeneticEncodedSolutionBuilder(EncodedSolutionBuilder):
-    def build(self, chromosome: any) -> GeneticEncodedSolution:
-        encoded_solution = GeneticEncodedSolution()
-        encoded_solution.set_chromosome(chromosome)
-        decoded_solution = self.solutionBuilder.build(self.convertor.decode(chromosome))
-        encoded_solution.set_cost_function_value(self.get_cost_function_value(decoded_solution))
-        encoded_solution.set_decoded_solution(decoded_solution)
-        return encoded_solution
-
-    def get_cost_function_value(self, decoded_solution):
-        return self.calculator.get_cost_function(decoded_solution.get_objective_function_value())
+    def set_encoded_representation(self, encoded_representation: any):
+        return self.set_chromosome(encoded_representation)
 
 
 class GeneticOperators(Operators):
@@ -59,8 +48,8 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
     def get_algorithm_operator_type(self) -> Type[Operators]:
         return GeneticOperators
 
-    def get_algorithm_builder_type(self) -> Type[EncodedSolutionBuilder]:
-        return GeneticEncodedSolutionBuilder
+    def get_algorithm_encoded_solution_type(self) -> Type[EncodedSolution]:
+        return GeneticEncodedSolution
 
     def init_hyper_parameters(self):
         n_pop = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfPopulation)
@@ -108,17 +97,17 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
         for _ in range(count):
             chromosomes.append(self.operators.random_generator(self.problem))
 
-        self.algorithm_builder: GeneticEncodedSolutionBuilder
+        self.algorithm_builder: EncodedSolutionBuilder
         return list(map(self.algorithm_builder.build, chromosomes))
 
     def perform_crossover(self, parent1: GeneticEncodedSolution, parent2: GeneticEncodedSolution) -> tuple:
         self.operators: GeneticOperators
         child1, child2 = self.operators.crossover(parent1.get_chromosome(), parent2.get_chromosome())
-        self.algorithm_builder: GeneticEncodedSolutionBuilder
+        self.algorithm_builder: EncodedSolutionBuilder
         return self.algorithm_builder.build(child1), self.algorithm_builder.build(child2)
 
-    def perform_mutation(self, parent: GeneticEncodedSolution) -> GeneticEncodedSolution:
+    def perform_mutation(self, parent: GeneticEncodedSolution) -> EncodedSolution:
         self.operators: GeneticOperators
         child = self.operators.mutation(parent.get_chromosome())
-        self.algorithm_builder: GeneticEncodedSolutionBuilder
+        self.algorithm_builder: EncodedSolutionBuilder
         return self.algorithm_builder.build(child)

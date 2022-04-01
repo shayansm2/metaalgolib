@@ -26,3 +26,7 @@ class EncodedSolution(DataStructure):
     @abstractmethod
     def get_encoded_representation(self):
         pass
+
+    @abstractmethod
+    def set_encoded_representation(self, encoded_representation: any):
+        pass

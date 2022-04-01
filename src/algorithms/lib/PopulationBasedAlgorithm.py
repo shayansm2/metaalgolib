@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Type
 
 from src.algorithms.lib.Algorithm import Algorithm
+from src.algorithms.lib.EncodedSolution import EncodedSolution
 from src.algorithms.lib.EncodedSolutionBuilder import EncodedSolutionBuilder
 from src.algorithms.lib.Operators import Operators
 from src.algorithms.lib.population.BasePopulation import BasePopulation
@@ -24,7 +25,7 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
         pass
 
     @abstractmethod
-    def get_algorithm_builder_type(self) -> Type[EncodedSolutionBuilder]:
+    def get_algorithm_encoded_solution_type(self) -> Type[EncodedSolution]:
         pass
 
     def initiate(self):
@@ -61,7 +62,11 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
 
     def init_builders(self):
         self.solution_builder = SolutionBuilder(self.calculator)
-        self.algorithm_builder = self.get_algorithm_builder_type()(self.convertor, self.solution_builder)
+        self.algorithm_builder = EncodedSolutionBuilder(
+            self.convertor,
+            self.solution_builder,
+            self.get_algorithm_encoded_solution_type()
+        )
 
     def init_population(self):
         self.population = BasePopulation()
