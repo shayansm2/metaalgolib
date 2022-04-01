@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Type
 
 from src.algorithms.CustomAlgorithm import CustomAlgorithmOperators
 from src.problems.lib.Convertor import Convertor
@@ -16,8 +17,8 @@ class CustomProblem(Problem):
     def get_parameter_storage(self) -> ParameterStorage:
         return CustomParameters()
 
-    def get_problem_calculator(self) -> ProblemCalculator:
-        return CustomProblemCalculator(self.parameters)  # todo def to parent, only type in child
+    def get_problem_calculator(self) -> Type[ProblemCalculator]:
+        return CustomProblemCalculator
 
     def get_problem_convertors_mapping(self) -> dict:
         return {

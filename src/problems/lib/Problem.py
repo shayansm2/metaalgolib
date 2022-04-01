@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Type, final
 
 import pandas as pd
 import requests as requests
@@ -21,8 +22,13 @@ class Problem(DataStructure, ABC):
         pass
 
     @abstractmethod
-    def get_problem_calculator(self) -> ProblemCalculator:
+    def get_problem_calculator(self) -> Type[ProblemCalculator]:
         pass
+
+    @final
+    def get_calculator(self) -> ProblemCalculator:
+        assert self.parameters is not None, 'something bad happened'
+        return self.get_problem_calculator()(self.parameters)
 
     @abstractmethod
     def get_problem_convertors_mapping(self) -> dict:

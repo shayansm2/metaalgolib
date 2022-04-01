@@ -1,3 +1,5 @@
+from typing import Type
+
 import numpy as np
 import pandas as pd
 
@@ -40,9 +42,8 @@ class QAPProblem(Problem):
     def get_parameter_storage(self) -> ParameterStorage:
         return QAPParameters()
 
-    def get_problem_calculator(self) -> ProblemCalculator:
-        assert self.parameters is not None, 'something bad happened'
-        return QAPCalculator(self.parameters)
+    def get_problem_calculator(self) -> Type[ProblemCalculator]:
+        return QAPCalculator
 
     def get_problem_convertors_mapping(self) -> dict:
         return {

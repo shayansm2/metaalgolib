@@ -41,7 +41,7 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
         pass
 
     def init_calculator(self):
-        self.calculator = self.problem.get_problem_calculator()
+        self.calculator = self.problem.get_calculator()
 
     def init_convertor(self):
         convertors = self.problem.get_problem_convertors_mapping()
