@@ -48,7 +48,7 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
     def get_algorithm_operator(self) -> Type[Operators]:
         return GeneticOperators
 
-    def get_algorithm_encoded_solution_type(self) -> Type[EncodedSolution]:
+    def get_algorithm_encoded_solution(self) -> Type[EncodedSolution]:
         return GeneticEncodedSolution
 
     def init_hyper_parameters(self):

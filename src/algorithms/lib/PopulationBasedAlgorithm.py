@@ -25,7 +25,7 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
         pass
 
     @abstractmethod
-    def get_algorithm_encoded_solution_type(self) -> Type[EncodedSolution]:
+    def get_algorithm_encoded_solution(self) -> Type[EncodedSolution]:
         pass
 
     def initiate(self):
@@ -65,7 +65,7 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
         self.algorithm_builder = EncodedSolutionBuilder(
             self.convertor,
             self.solution_builder,
-            self.get_algorithm_encoded_solution_type()
+            self.get_algorithm_encoded_solution()
         )
 
     def init_population(self):
