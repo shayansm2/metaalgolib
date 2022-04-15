@@ -23,12 +23,13 @@ class GeneticEncodedSolution(EncodedSolution):
         return self.chromosome
 
     def get_encoded_representation(self):
-        return self.chromosome
+        return self.get_chromosome()
 
     def set_encoded_representation(self, encoded_representation: any):
         return self.set_chromosome(encoded_representation)
 
 
+# todo crossover and mutation don't know about problem and parameters, they may need them
 class GeneticOperators(Operators):
     @staticmethod
     @abstractmethod
@@ -53,20 +54,20 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
 
     def init_hyper_parameters(self):
         n_pop = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfPopulation)
-        p_crossover = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.crossoverPercentage)
-        p_mutation = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.mutationPercentage)
-        self.set_hyper_parameter(Enums.hyperParam.numberOfCrossover, 2 * int(n_pop * p_crossover / 2))
-        self.set_hyper_parameter(Enums.hyperParam.numberOfMutation, int(n_pop * p_mutation))
+        p_crossover = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.geneticCrossoverPercentage)
+        p_mutation = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.geneticMutationPercentage)
+        self.set_hyper_parameter(Enums.hyperParam.geneticNumberOfCrossover, 2 * int(n_pop * p_crossover / 2))
+        self.set_hyper_parameter(Enums.hyperParam.geneticNumberOfMutation, int(n_pop * p_mutation))
 
     def run(self):
         n_pop = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfPopulation)
-        n_crossover = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfCrossover)
-        n_mutation = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfMutation)
+        n_crossover = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.geneticNumberOfCrossover)
+        n_mutation = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.geneticNumberOfMutation)
         n_generation = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfIteration)
 
         self.population.insert_many(self.create_random_solutions(n_pop))  # todo initial selection
 
-        while self.generationNumber <= n_generation:  # todo stop condition
+        while not self.reached_stop_criteria(n_generation):  # todo stop condition
             self._run_per_generation(n_crossover, n_mutation, n_pop)
 
         self.result.set_best_answer(self.population.get_best_answer())

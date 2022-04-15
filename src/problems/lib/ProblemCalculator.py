@@ -13,5 +13,5 @@ class ProblemCalculator(Calculator, ABC):
         pass
 
     @abstractmethod
-    def check_is_feasible(self, decision_variables: any):
+    def check_is_feasible(self, decision_variables: any) -> bool:
         pass

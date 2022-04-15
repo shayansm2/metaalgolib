@@ -46,7 +46,7 @@ class CustomProblemCalculator(ProblemCalculator):
         # this method should calculate the objective function of given decision variables
         pass
 
-    def check_is_feasible(self, decision_variables: any):
+    def check_is_feasible(self, decision_variables: any) -> bool:
         # this method should check whether a solution is feasible or not given decision variables
         pass
 

@@ -22,23 +22,6 @@ class QAPProblem(Problem):
     def get_problem_name(self) -> str:
         return Enums.problem.qap
 
-    def set_parameters(self, url):
-        string = super().get_from_url(url)
-        problem = string.split('\n\n')
-
-        self.parameters: QAPParameters
-        problem_size = int(problem[0])
-
-        self.parameters.problem_size = int(problem[0])
-
-        self.parameters.facility_flow_matrix = \
-            np.array([int(i) for i in problem[1].split()]).reshape(problem_size, problem_size)
-
-        self.parameters.transport_cost_matrix = \
-            np.array([int(i) for i in problem[2].split()]).reshape(problem_size, problem_size)
-
-        return self
-
     def get_parameter_storage(self) -> ParameterStorage:
         return QAPParameters()
 
@@ -55,6 +38,23 @@ class QAPProblem(Problem):
             Enums.algo.ga: QAPGeneticOperators()
         }
 
+    def set_parameters(self, url):
+        string = super().get_from_url(url)
+        problem = string.split('\n\n')
+
+        self.parameters: QAPParameters  # todo can we move it to parent?
+        problem_size = int(problem[0])
+
+        self.parameters.problem_size = int(problem[0])
+
+        self.parameters.facility_flow_matrix = \
+            np.array([int(i) for i in problem[1].split()]).reshape(problem_size, problem_size)
+
+        self.parameters.transport_cost_matrix = \
+            np.array([int(i) for i in problem[2].split()]).reshape(problem_size, problem_size)
+
+        return self
+
 
 class QAPCalculator(ProblemCalculator):
     def get_objective_function(self, decision_variables: list[list]):
@@ -65,7 +65,7 @@ class QAPCalculator(ProblemCalculator):
         decision_variables = np.array(decision_variables)
         return sum(sum(flow * np.dot(np.dot(decision_variables.transpose(), cost), decision_variables)))
 
-    def check_is_feasible(self, decision_variables: any):
+    def check_is_feasible(self, decision_variables: any) -> bool:
         return True
 
 
@@ -89,6 +89,7 @@ class QAPGeneticConvertor(Convertor):
 class QAPGeneticOperators(GeneticOperators):
     @staticmethod
     def random_generator(problem: Problem) -> list:  # not a good code, but I had no other idea
+        # todo why problem assertion works and parameter assertion doesn't
         assert isinstance(problem, QAPProblem), 'problem type is wrong'
         problem_size = problem.parameters.problem_size
         chromosome = np.arange(problem_size)
@@ -97,6 +98,7 @@ class QAPGeneticOperators(GeneticOperators):
 
     @staticmethod
     def crossover(parent1: list, parent2: list) -> tuple:
+        assert len(parent1) == len(parent2)
         p1 = np.random.rand(len(parent1))
         p1.sort()
         p1 = np.array(p1[parent1])

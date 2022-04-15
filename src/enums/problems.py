@@ -4,3 +4,4 @@ class ProblemNames(object):
     vrp = 'vehicle_routing_problem'
     lip = 'location_inventory_problem'
     lrp = 'location_routing_problem'
+    math = 'mathematical_optimization_problem'

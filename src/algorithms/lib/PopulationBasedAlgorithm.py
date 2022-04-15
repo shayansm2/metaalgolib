@@ -99,3 +99,6 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
                 unique_answers[hash_value] = 1
 
         return len(unique_answers)
+
+    def reached_stop_criteria(self, n_generation: int) -> bool:
+        return self.generationNumber > n_generation

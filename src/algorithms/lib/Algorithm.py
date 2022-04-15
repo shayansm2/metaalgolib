@@ -2,6 +2,7 @@ import hashlib
 from abc import ABC, abstractmethod
 from typing import final
 
+from src.Enums import Enums
 from src.algorithms.lib.AlgorithmResult import AlgorithmResult
 from src.algorithms.lib.HyperParameterStorage import HyperParameterStorage
 from src.lib.FunctionObject import FunctionObject
@@ -33,8 +34,9 @@ class Algorithm(FunctionObject, ABC):
         self.initiate()
         self.run()
 
-    def set_stop_criteria(self):
-        pass
+    def set_stop_criteria(self, name: str, vale: int):
+        assert name in Enums.algoSetting.all_stop_criteria
+        return self
 
     def validate_inputs(self):
         assert self.problem is not None, 'problem not defined'
