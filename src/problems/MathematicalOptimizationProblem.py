@@ -1,5 +1,4 @@
 import random
-import sys
 from typing import Callable, Type
 
 import numpy as np

@@ -9,5 +9,3 @@ class HyperParameterNames:
 
     psoInertiaCoefficient = 'pso_inertia_coefficient'
     psoLearningCoefficient = 'pso_learning_coefficient'
-
-
