@@ -8,7 +8,11 @@ from src.problems.lib.Problem import Problem
 from src.problems.lib.ProblemCalculator import ProblemCalculator
 
 
-# todo update this and README
+# data structure of the problem's parameters
+class CustomParameters(ParameterStorage):
+    pass
+
+
 class CustomProblem(Problem):
     def get_problem_name(self) -> str:
         # return problem name
@@ -20,6 +24,7 @@ class CustomProblem(Problem):
     def get_problem_calculator(self) -> Type[ProblemCalculator]:
         return CustomProblemCalculator
 
+    # you can use default convertors if your decision variables and algorithm's encoded solutions are the same
     def get_problem_convertors_mapping(self) -> dict:
         return {
             # algorithm 1: convertor for algorithm 1,
@@ -49,10 +54,6 @@ class CustomProblemCalculator(ProblemCalculator):
     def check_is_feasible(self, decision_variables: any) -> bool:
         # this method should check whether a solution is feasible or not given decision variables
         pass
-
-
-class CustomParameters(ParameterStorage):
-    pass
 
 
 # following two classes should be implemented for each algorithm you want to use for this problem

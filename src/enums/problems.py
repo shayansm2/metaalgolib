@@ -5,3 +5,4 @@ class ProblemNames(object):
     lip = 'location_inventory_problem'
     lrp = 'location_routing_problem'
     math = 'mathematical_optimization_problem'
+    bin = 'bin_packing_problem'
