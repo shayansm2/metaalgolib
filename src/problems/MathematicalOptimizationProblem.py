@@ -1,6 +1,7 @@
 import random
 from typing import Callable, Type
 
+import matplotlib.pyplot as plt
 import numpy as np
 
 from src.Enums import Enums
@@ -44,6 +45,29 @@ class MathematicalOptimizationProblem(Problem):
         self.parameters.domain = domain
         self.parameters.objective_function = objective_function
         return self
+
+    def plot_solution_space(self, solutions: list = None):
+        self.parameters: MathematicalOptimizationParameters
+        if self.parameters.dimension != 2:
+            return
+
+        domain_start = self.parameters.domain[0]
+        domain_end = self.parameters.domain[1]
+        x, y = np.array(np.meshgrid(
+            np.linspace(domain_start, domain_end, 100), np.linspace(domain_start, domain_end, 100)
+        ))
+
+        z = self.parameters.objective_function([x, y])
+        x_min = x.ravel()[z.argmin()]
+        y_min = y.ravel()[z.argmin()]
+        plt.figure(figsize=(8, 6))
+        plt.imshow(z, extent=[domain_start, domain_end, domain_start, domain_end], origin='lower', cmap='viridis',
+                   alpha=0.5)
+        plt.colorbar()
+        plt.plot([x_min], [y_min], marker='x', markersize=5, color="white")
+        contours = plt.contour(x, y, z, 10, colors='black', alpha=0.4)
+        plt.clabel(contours, inline=True, fontsize=8, fmt="%.0f")
+        plt.show()
 
 
 class MathematicalOptimizationCalculator(ProblemCalculator):

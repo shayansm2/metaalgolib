@@ -38,6 +38,8 @@ class Solver(FunctionObject):
         if self.withConvergenceAnalysis:
             self.show_convergence_analysis()
 
+        self.problem.plot_solution_space()
+
     def show_objective_function_progress(self):
         plt.plot(list(map(self.get_objective_function_values, self.algorithm.get_result().get_answer_logs())))
         plt.title('Objective Function Progress')

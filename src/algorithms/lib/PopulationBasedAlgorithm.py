@@ -36,6 +36,9 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
         self.init_builders()
         self.init_population()
 
+    def run(self):  # todo implement it and remove it from children (we have run_per_generation)
+        pass
+
     @abstractmethod
     def init_hyper_parameters(self):
         pass

@@ -1,7 +1,9 @@
+from abc import abstractmethod
 from typing import Type
 
 from src.Enums import Enums
 from src.algorithms.lib.EncodedSolution import EncodedSolution
+from src.algorithms.lib.Operators import Operators
 from src.algorithms.lib.PopulationBasedAlgorithm import PopulationBasedAlgorithm
 
 
@@ -48,6 +50,13 @@ class PSOEncodedSolution(EncodedSolution):
         return self.bestCostFunctionValue
 
 
+class PSOOperators(Operators):
+    @staticmethod
+    @abstractmethod
+    def subtraction(vendor1: any, vendor2: any):
+        pass
+
+
 class ParticleSwarmOptimizationAlgorithm(PopulationBasedAlgorithm):
     def get_algorithm_name(self) -> str:
         return Enums.algo.pso
@@ -55,3 +64,11 @@ class ParticleSwarmOptimizationAlgorithm(PopulationBasedAlgorithm):
     def get_algorithm_encoded_solution(self) -> Type[EncodedSolution]:
         return PSOEncodedSolution
 
+    def get_algorithm_operator(self) -> Type[Operators]:
+        return PSOOperators
+
+    def init_hyper_parameters(self):
+        pass
+
+    def run_per_generation(self, *args):
+        pass

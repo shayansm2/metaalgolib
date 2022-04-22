@@ -55,3 +55,6 @@ class Problem(DataStructure, ABC):
     @staticmethod
     def get_from_csv(path: str) -> pd.DataFrame:
         return pd.read_csv(path)
+
+    def plot_solution_space(self, solutions: list = None):
+        pass
