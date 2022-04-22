@@ -47,8 +47,10 @@ For defining a new algorithm,  make a copy of `customAlgorithm.py` in the algori
 - [ ] algorithm setting
 - [ ] algorithm penalty function
 - [ ] problem feasibility metrics
+- [ ] make it a package 
 - [ ] populations
 - [ ] hyper parameter optimizer
+
 ### algorithms
 - [x] genetic algorithm
 - [ ] particle swarm optimization algorithm
@@ -56,6 +58,7 @@ For defining a new algorithm,  make a copy of `customAlgorithm.py` in the algori
 - [ ] multi objective algorithm
 - [ ] NSGA-II
 - [ ] MOPSO
+
 ### problems
 - [x] quadratic assignment problem
 - [x] nlp mathematical optimization problem 
