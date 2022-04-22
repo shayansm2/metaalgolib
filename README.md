@@ -6,12 +6,6 @@
 This document will illustrate how to use this code and how you can add new problems and algorithms to it.
 
 
-| Algorithms                                  | Problems                      |
-|---------------------------------------------|-------------------------------|
-| Genetic                                     | quadratic assignment          |
-| Particle Swarm Optimization (`in progress`) | nlp mathematical optimization |
-| Differential Evolution (`not started`)      | bin packing (`not started`)   |
-
 For solving a pre-defined problem with a pre-writen algorithm, write the below script and change configs based on your requirements:
 
 ```python
@@ -41,3 +35,29 @@ solver.show_plots()
 
 For defining a new problem,  make a copy of `customProblem.py` in the problem directory and change it.\
 For defining a new algorithm,  make a copy of `customAlgorithm.py` in the algorithm directory and change it.
+
+--- 
+## Roadmap
+### core
+- [x] initiate the project
+- [x] SEO
+- [x] solver plots
+- [x] problem based plots
+- [ ] operators dictionary
+- [ ] algorithm setting
+- [ ] algorithm penalty function
+- [ ] problem feasibility metrics
+- [ ] populations
+- [ ] hyper parameter optimizer
+### algorithms
+- [x] genetic algorithm
+- [ ] particle swarm optimization algorithm
+- [ ] differential evolution algorithm
+- [ ] multi objective algorithm
+- [ ] NSGA-II
+- [ ] MOPSO
+### problems
+- [x] quadratic assignment problem
+- [x] nlp mathematical optimization problem 
+- [ ] bin packing problem
+- [ ] location-inventory-routing problem
