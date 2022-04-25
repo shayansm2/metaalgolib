@@ -6,6 +6,7 @@ from src.algorithms.lib.EncodedSolution import EncodedSolution
 from src.algorithms.lib.EncodedSolutionBuilder import EncodedSolutionBuilder
 from src.algorithms.lib.Operators import Operators
 from src.algorithms.lib.population.BasePopulation import BasePopulation
+from src.problems.lib.DefaultConvertor import DefaultConvertor
 from src.problems.lib.SolutionBuilder import SolutionBuilder
 
 
@@ -49,9 +50,10 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
     def init_convertor(self):
         convertors = self.problem.get_problem_convertors_mapping()
         convertors: dict
-        assert self.get_algorithm_name() in convertors.keys(), \
-            'algorithm cannot solve the problem. please define the convertors for the algorithm'
-        self.convertor = convertors[self.get_algorithm_name()]
+
+        self.convertor = DefaultConvertor()
+        if self.get_algorithm_name() in convertors.keys():
+            self.convertor = convertors[self.get_algorithm_name()]
 
     def init_operators(self):
         all_operators = self.problem.get_problem_operators_mapping()

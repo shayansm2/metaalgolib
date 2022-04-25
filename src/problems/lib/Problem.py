@@ -30,9 +30,8 @@ class Problem(DataStructure, ABC):
         assert self.parameters is not None, 'something bad happened'
         return self.get_problem_calculator()(self.parameters)
 
-    @abstractmethod
     def get_problem_convertors_mapping(self) -> dict:
-        pass
+        return {}
 
     @abstractmethod
     def get_problem_operators_mapping(self) -> dict:

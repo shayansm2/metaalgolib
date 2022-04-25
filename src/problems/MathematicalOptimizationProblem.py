@@ -6,7 +6,8 @@ import numpy as np
 
 from src.Enums import Enums
 from src.algorithms.Genetic import GeneticOperators
-from src.problems.lib.DefaultConvertor import DefaultConvertor
+from src.algorithms.ParticleSwarmOptimization import PSOOperators
+from src.algorithms.lib.Operators import Operators
 from src.problems.lib.ParameterStorage import ParameterStorage
 from src.problems.lib.Problem import Problem
 from src.problems.lib.ProblemCalculator import ProblemCalculator
@@ -29,14 +30,10 @@ class MathematicalOptimizationProblem(Problem):
     def get_problem_calculator(self) -> Type[ProblemCalculator]:
         return MathematicalOptimizationCalculator
 
-    def get_problem_convertors_mapping(self) -> dict:
-        return {
-            Enums.algo.ga: DefaultConvertor()
-        }
-
     def get_problem_operators_mapping(self) -> dict:
         return {
-            Enums.algo.ga: MathematicalOptimizationGeneticOperators()
+            Enums.algo.ga: MathematicalOptimizationGeneticOperators(),
+            Enums.algo.pso: MathematicalOptimizationPSOOperators(),
         }
 
     def set_parameters(self, dimension: int, domain: tuple, objective_function: Callable):
@@ -83,7 +80,7 @@ class MathematicalOptimizationCalculator(ProblemCalculator):
         return True
 
 
-class MathematicalOptimizationGeneticOperators(GeneticOperators):
+class BaseMathematicalOptimizationOperators(Operators):
     @staticmethod
     def random_generator(problem: Problem) -> list:
         assert isinstance(problem, MathematicalOptimizationProblem), 'problem type is wrong'
@@ -93,6 +90,8 @@ class MathematicalOptimizationGeneticOperators(GeneticOperators):
             problem.parameters.dimension)
         )
 
+
+class MathematicalOptimizationGeneticOperators(GeneticOperators, BaseMathematicalOptimizationOperators):
     @staticmethod
     def crossover(parent1: list, parent2: list) -> tuple:
         assert len(parent1) == len(parent2)
@@ -104,6 +103,12 @@ class MathematicalOptimizationGeneticOperators(GeneticOperators):
 
     @staticmethod
     def mutation(parent: list) -> list:
-        randomIndex = random.randint(0, len(parent) - 1)
-        parent[randomIndex] = - parent[randomIndex]
+        random_index = random.randint(0, len(parent) - 1)
+        parent[random_index] = - parent[random_index]
         return parent
+
+
+class MathematicalOptimizationPSOOperators(PSOOperators, BaseMathematicalOptimizationOperators):
+    @staticmethod
+    def subtraction(vendor1: list, vendor2: list) -> list:
+        return list(np.subtract(np.array(vendor1), np.array(vendor2)))
