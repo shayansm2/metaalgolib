@@ -18,7 +18,7 @@ class QAPParameters(ParameterStorage):
         self.transport_cost_matrix = None
 
 
-class QAPProblem(Problem):
+class QAPProblem(Problem):  # todo move it to factory
     def get_problem_name(self) -> str:
         return Enums.problem.qap
 
