@@ -32,7 +32,7 @@ print(solver.get_best_found_answer())
 solver.show_plots()
 
 ```
-For more examples, take a look at this [link](https://github.com/shayansm2/metaalgolib/blob/main/src/main.ipynb) 
+For more examples, take a look at this [link](https://github.com/shayansm2/metaalgolib/blob/main/src/main.ipynb).
 
 For defining a new problem,  make a copy of `customProblem.py` in the problem directory and change it.\
 For defining a new algorithm,  make a copy of `customAlgorithm.py` in the algorithm directory and change it.
