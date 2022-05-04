@@ -53,24 +53,26 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
         return GeneticEncodedSolution
 
     def init_hyper_parameters(self):
-        n_pop = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfPopulation)
-        p_crossover = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.geneticCrossoverPercentage)
-        p_mutation = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.geneticMutationPercentage)
+        n_pop = self.hyperParameter.get(Enums.hyperParam.numberOfPopulation)
+        p_crossover = self.hyperParameter.get(Enums.hyperParam.geneticCrossoverPercentage)
+        p_mutation = self.hyperParameter.get(Enums.hyperParam.geneticMutationPercentage)
         self.set_hyper_parameter(Enums.hyperParam.geneticNumberOfCrossover, 2 * int(n_pop * p_crossover / 2))
         self.set_hyper_parameter(Enums.hyperParam.geneticNumberOfMutation, int(n_pop * p_mutation))
 
     def run(self):
-        n_pop = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfPopulation)
-        n_crossover = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.geneticNumberOfCrossover)
-        n_mutation = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.geneticNumberOfMutation)
-        n_generation = self.hyperParameter.get_hyper_parameter(Enums.hyperParam.numberOfIteration)
+        n_pop = self.hyperParameter.get(Enums.hyperParam.numberOfPopulation)
+        n_crossover = self.hyperParameter.get(Enums.hyperParam.geneticNumberOfCrossover)
+        n_mutation = self.hyperParameter.get(Enums.hyperParam.geneticNumberOfMutation)
+        n_generation = self.hyperParameter.get(Enums.hyperParam.numberOfIteration)
 
-        self.population.insert_many(self.create_random_solutions(n_pop))  # todo initial selection
-
+        self.init_first_population(n_pop)
         while not self.reached_stop_criteria(n_generation):  # todo stop condition
             self._run_per_generation(n_crossover, n_mutation, n_pop)
 
         self.result.set_best_answer(self.population.get_best_answer())
+
+    def init_first_population(self, n_pop):
+        self.population.insert_many(self.create_random_solutions(n_pop))  # todo initial selection
 
     def run_per_generation(self, n_crossover, n_mutation, n_pop):
         parents = self.population.get_top_individuals(n_crossover * 2)  # todo parent selection

@@ -5,16 +5,16 @@ class HyperParameterStorage(DataStructure):
     def __init__(self):
         self.parameterStorage = dict()
 
-    def set_hyper_parameter(self, name, value):
+    def set(self, name, value):
         self.parameterStorage[name] = value
         return self
 
-    def set_hyper_parameters(self, parameters: dict):
+    def set_multi(self, parameters: dict):
         for parameterName in parameters.keys():
-            self.set_hyper_parameter(parameterName, parameters[parameterName])
+            self.set(parameterName, parameters[parameterName])
         return self
 
-    def get_hyper_parameter(self, name):
+    def get(self, name):
         assert name in self.parameterStorage.keys(), 'hyper parameter ' + name + ' not found'
 
         return self.parameterStorage[name]

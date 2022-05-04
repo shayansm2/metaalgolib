@@ -22,7 +22,7 @@ class Algorithm(FunctionObject, ABC):
         pass
 
     def set_hyper_parameter(self, name, value):
-        self.hyperParameter.set_hyper_parameter(name, value)
+        self.hyperParameter.set(name, value)
         return self
 
     def set_problem(self, problem: Problem):
