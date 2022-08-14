@@ -12,3 +12,4 @@ class HyperParameterNames:
     psoInertiaWeight = 'inertia_weight'  # w
     psoCognitiveCoefficient = 'cognitive_coefficient'  # c1
     psoSocialCoefficient = 'social_coefficient'  # c2
+    psoInertiaWeightDecay = 'inertia_weight_decay'  # w'

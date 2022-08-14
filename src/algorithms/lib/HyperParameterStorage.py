@@ -14,10 +14,17 @@ class HyperParameterStorage(DataStructure):
             self.set(parameterName, parameters[parameterName])
         return self
 
-    def get(self, name):
-        assert name in self.parameterStorage.keys(), 'hyper parameter ' + name + ' not found'
+    def exists(self, name) -> bool:
+        return name in self.parameterStorage.keys()
 
+    def get(self, name):
+        assert self.exists(name), 'hyper parameter ' + name + ' not found'
         return self.parameterStorage[name]
+
+    def find(self, name):
+        if self.exists(name):
+            return self.parameterStorage[name]
+        return None
 
     def get_all(self):
         return self.parameterStorage

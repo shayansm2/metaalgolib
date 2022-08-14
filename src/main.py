@@ -5,14 +5,6 @@ from src.Enums import Enums
 from src.lib.Solver import Solver
 from src.problems.MathematicalOptimizationProblem import MathematicalOptimizationProblem
 
-ga = AlgorithmFactory.get(Enums.algo.ga)
-
-ga.set_hyper_parameter(Enums.hyperParam.numberOfIteration, 100) \
-    .set_hyper_parameter(Enums.hyperParam.numberOfPopulation, 100) \
-    .set_hyper_parameter(Enums.hyperParam.geneticCrossoverPercentage, 0.4) \
-    .set_hyper_parameter(Enums.hyperParam.geneticMutationPercentage, 0.1) \
-    .set_stop_criteria(Enums.algoSetting.stopCriteriaNumberOfGeneration, 100)
-
 
 # problem = QAPProblem()
 # problem.set_parameters(url='https://www.opt.math.tugraz.at/qaplib/data.d/chr12a.dat')
@@ -47,6 +39,7 @@ def ackley_function(x: list):  # todo fix it for numpy
     return term1 + term2 + a + np.e
 
 
+# https://machinelearningmastery.com/a-gentle-introduction-to-particle-swarm-optimization/
 def custom_function(variables: list):
     x = variables[0]
     y = variables[1]
@@ -54,12 +47,22 @@ def custom_function(variables: list):
     return (x - 3.14) ** 2 + (y - 2.72) ** 2 + np.sin(3 * x + 1.41) + np.sin(4 * y - 1.73)
 
 
-problem = MathematicalOptimizationProblem()
-# problem.set_parameters(2, (-10, 10), cross_in_tray_function)
-# problem.set_parameters(2, (-32.768, 32.768), ackley_function)
-problem.set_parameters(2, (0, 5), custom_function)
+def sphere(x):
+    return sum(x**2)
 
-solver = Solver(ga, problem)
+
+pso = AlgorithmFactory.get(Enums.algo.pso)
+
+pso.set_hyper_parameter(Enums.hyperParam.numberOfIteration, 200) \
+    .set(Enums.hyperParam.numberOfPopulation, 50) \
+    .set(Enums.hyperParam.psoInertiaWeight, 0.995) \
+    .set(Enums.hyperParam.psoSocialCoefficient, 1.5) \
+    .set(Enums.hyperParam.psoCognitiveCoefficient, 1.5)
+
+problem = MathematicalOptimizationProblem()
+problem.set_parameters(10, (-5, 5), sphere)
+
+solver = Solver(pso, problem)
 solver.with_objective_function_progress() \
     .with_convergence_report()
 

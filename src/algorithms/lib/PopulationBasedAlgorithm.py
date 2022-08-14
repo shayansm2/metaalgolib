@@ -83,6 +83,10 @@ class PopulationBasedAlgorithm(Algorithm, ABC):
     def run_per_generation(self, *args):
         pass
 
+    @abstractmethod
+    def init_first_population(self, *args):
+        pass
+
     def _run_per_generation(self, *args):
         self.run_per_generation(*args)
 

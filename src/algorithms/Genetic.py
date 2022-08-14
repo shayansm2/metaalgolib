@@ -56,6 +56,10 @@ class GeneticAlgorithm(PopulationBasedAlgorithm):
         n_pop = self.hyperParameter.get(Enums.hyperParam.numberOfPopulation)
         p_crossover = self.hyperParameter.get(Enums.hyperParam.geneticCrossoverPercentage)
         p_mutation = self.hyperParameter.get(Enums.hyperParam.geneticMutationPercentage)
+
+        assert 0 <= p_crossover <= 0.5, 'crossover percentage should be between 0 and 0.5'
+        assert 0 <= p_mutation <= 1, 'mutation percentage should be between 0 and 1'
+
         self.set_hyper_parameter(Enums.hyperParam.geneticNumberOfCrossover, 2 * int(n_pop * p_crossover / 2))
         self.set_hyper_parameter(Enums.hyperParam.geneticNumberOfMutation, int(n_pop * p_mutation))
 
